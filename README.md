@@ -2,12 +2,12 @@
 
 ## Descripción del proyecto
 
-Proyecto de Procesamiento de Datos con python, utilizando las librerias [pandas](https://pandas.pydata.org/docs/), [yfinance](https://pypi.org/project/yfinance/), [numpy](https://numpy.org/doc/) y [matplotlib](https://matplotlib.org/).
-Se utiliza la API de Yahoo Finance para obtener los datos de las acciones de las empresas que se desean analizar. Para posteriormente realizar un analisis exploratorio de los datos, y un analisis de correlacion entre las acciones.
-Se le puede pasar una lista con tickers de empresas para que el programa genere los graficos y los reportes de las empresas que se desean analizar o bien utilizar la lista de empresas que se encuentra en el archivo main.py.
+Proyecto de Procesamiento de Datos con python, utilizando las librerias [pandas](https://pandas.pydata.org/docs/), [yfinance](https://pypi.org/project/yfinance/), [numpy](https://numpy.org/doc/) y [matplotlib](https://matplotlib.org/).  
+Se utiliza la API de Yahoo Finance para obtener los datos de las acciones de las empresas que se desean analizar. Para posteriormente realizar un analisis exploratorio de los datos, y un analisis de correlacion entre las acciones.  
+Se le puede pasar una lista con tickers de empresas para que el programa genere los graficos y los reportes de las empresas que se desean analizar o bien utilizar la lista de empresas que se encuentra en el archivo main.py.  
 ## Requisitos del proyecto
-Utilice el siguiente comando para instalar las librerias necesarias para correr el proyecto:
-(Se recomienda utilizar el entorno virtual de su preferencia)
+Utilice el siguiente comando para instalar las librerias necesarias para correr el proyecto:  
+(*Se recomienda utilizar el entorno virtual de su preferencia*)
 ```bash
 pipenv install -r requirements.txt
 ```
@@ -36,12 +36,12 @@ Elija una opcion:
                          3. Utilizar los tickers por defecto
                          0. Salir
 ```
-si elegimos la opcion 1, nos va a pedir que ingresemos los tickers de las empresas que queremos analizar, separados por una coma.
-Si elegimos la opcion 2, nos va a pedir que ingresemos los tickers de las empresas que queremos analizar, separados por una coma en un archivo que se genera automaticamente en la carpeta del proyecto llamado *'tickers.txt'*.
-Si elegimos la opcion 3, se van a utilizar los tickers por defecto que se encuentran en el archivo main.py.
-Si elegimos la opcion 0, se va a salir del programa.
+si elegimos la opcion 1, nos va a pedir que ingresemos los tickers de las empresas que queremos analizar, separados por una coma.  
+Si elegimos la opcion 2, nos va a pedir que ingresemos los tickers de las empresas que queremos analizar, separados por una coma en un archivo que se genera automaticamente en la carpeta del proyecto llamado *'tickers.txt'*.  
+Si elegimos la opcion 3, se van a utilizar los tickers por defecto que se encuentran en el archivo main.py.  
+Si elegimos la opcion 0, se va a salir del programa.  
 
-Luego de elegir los tickers de las empresas a analizar se va a solicitar que ingrese un periodo de tiempo para analizar los datos, se puede elegir entre varias opciones predeterminadas como vemos en este menu:
+Luego de elegir los tickers de las empresas a analizar se va a solicitar que ingrese un periodo de tiempo para analizar los datos, se puede elegir entre varias opciones predeterminadas como vemos en este menu:  
 ```bash
 ** La lista de tickers actual es:  ['KO', 'META', 'AAPL'] **
 
@@ -54,9 +54,9 @@ Seleccione el periodo de tiempo a analizar:
                                                 5. 1 mes
                                                 6. 5 días
                                                 0. Salir
-```
-(*Si elegimos la opcion 1, se va a analizar el periodo maximo de tiempo disponible en la base de datos de yahoo finance.*)
-Una vez seleccionado el periodo de tiempo, se generaran diferentes graficos y reportes en la carpeta *'graficos'* y *'datos'* respectivamente.
+```  
+(*Si elegimos la opcion 1, se va a analizar el periodo maximo de tiempo disponible en la base de datos de yahoo finance.*)  
+Una vez seleccionado el periodo de tiempo, se generaran diferentes graficos y reportes en la carpeta *'graficos'* y *'datos'* respectivamente.  
 Entre los graficos se encuentran:
 - Grafico de la volatilidad maxima y minima registrada en una jornada tipica.
 - Grafico de la volatilidad acumulada en el periodo de tiempo seleccionado.
