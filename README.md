@@ -3,7 +3,7 @@
 ## Descripción del proyecto
 
 Proyecto de Procesamiento de Datos con python, utilizando las librerias [pandas](https://pandas.pydata.org/docs/), [yfinance](https://pypi.org/project/yfinance/), [numpy](https://numpy.org/doc/) y [matplotlib](https://matplotlib.org/).  
-Se utiliza la API de Yahoo Finance para obtener los datos de las acciones de las empresas que se desean analizar. Para posteriormente realizar un analisis exploratorio de los datos, y un analisis de correlacion entre las acciones.  
+Se utiliza la API de Yahoo Finance para obtener los datos de las acciones de las empresas que se desean analizar para posteriormente realizar un analisis exploratorio de los datos, y un analisis de correlacion entre las acciones.    
 Se le puede pasar una lista con tickers de empresas para que el programa genere los graficos y los reportes de las empresas que se desean analizar o bien utilizar la lista de empresas que se encuentra en el archivo main.py.  
 ## Requisitos del proyecto
 Utilice el siguiente comando para instalar las librerias necesarias para correr el proyecto:  
@@ -60,29 +60,29 @@ Seleccione el periodo de tiempo a analizar:
 (*Si elegimos la opcion 1, se va a analizar el periodo maximo de tiempo disponible en la base de datos de yahoo finance.*)  
 Una vez seleccionado el periodo de tiempo, se generaran diferentes graficos y reportes en la carpeta *'graficos'* y *'datos'* respectivamente.  
 Entre los graficos se encuentran:
-- Grafico de la volatilidad maxima y minima registrada en una jornada tipica.
-- Grafico de la volatilidad acumulada en el periodo de tiempo seleccionado.
-- Grafico de los precios maximos alcanzados en el periodo de tiempo seleccionado.
-- Grafico de la evolucion del precio de cierre de las acciones.
-- Grafico de los pagos de dividendos acumulados en el periodo de tiempo seleccionado.  
+- Volatilidad maxima y minima registrada en una jornada tipica.
+- Volatilidad acumulada en el periodo de tiempo seleccionado.
+- Precios maximos alcanzados en el periodo de tiempo seleccionado.
+- Evolucion del precio de cierre de las acciones.
+- Pagos de dividendos acumulados en el periodo de tiempo seleccionado.  
 
 A su vez tambien podemos encontrar los siguientes reportes:  
-- Reporte de la volatilidad detallada en cada jornada tipica.
+- Volatilidad detallada en cada jornada tipica.
 - Reporte de cada empresa con todos los datos incluidos.
-- Reporte de los dividendos pagados en el periodo de tiempo seleccionado.
-- Reporte de los precios de cierre por jornada.
+- Dividendos pagados en el periodo de tiempo seleccionado.
+- Precios de cierre por jornada.
 
 
 
 ## Estructura del repositorio
 El repositorio contiene los siguientes archivos:
 - main.py: Archivo principal del proyecto, contiene el codigo fuente.
-- GUI.py: Archivo que contiene la interfaz del proyecto.
+- GUI.py: Contiene la interfaz del proyecto.
 - datos: Carpeta que contiene los datos utilizados para el analisis que a su vez actuan como reportes.
 - graficos: Carpeta que contiene los graficos generados por el proyecto.
-- requirements.txt: Archivo que contiene las dependencias del proyecto.
-- README.md: Archivo que contiene la informacion del proyecto.
+- requirements.txt: Contiene las dependencias del proyecto.
+- README.md: Contiene la informacion del proyecto.
 
 
-#### Integrantes:
+#### Autor:
     -Agustin Piccoli
