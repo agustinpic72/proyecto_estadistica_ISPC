@@ -18,7 +18,7 @@ python3 main.py
 ```
 Que nos va a mostrar el siguiente menu:
 ```bash
-Los tickers disponibles son:
+Los tickers disponibles de manera predeterminada son:
 *                          AMZN
 *                            KO
 *                          AAPL
@@ -36,7 +36,9 @@ Elija una opcion:
                          3. Utilizar los tickers por defecto
                          0. Salir
 ```
-si elegimos la opcion 1, nos va a pedir que ingresemos los tickers de las empresas que queremos analizar, separados por una coma.  
+Se pueden agregar todos los tickers que se deseen, pero se recomienda no agregar mas de 5 para que el analisis sea mas rapido.  
+No se pueden mezclar criptomonedas con acciones tradicionales debido a que existe una diferencia en los periodos de cotizacion entre ambos activos financieros, resultando en un problema al momento de realizar el analisis.  
+Si elegimos la opcion 1, nos va a pedir que ingresemos los tickers de las empresas que queremos analizar, separados por una coma.  
 Si elegimos la opcion 2, nos va a pedir que ingresemos los tickers de las empresas que queremos analizar, separados por una coma en un archivo que se genera automaticamente en la carpeta del proyecto llamado *'tickers.txt'*.  
 Si elegimos la opcion 3, se van a utilizar los tickers por defecto que se encuentran en el archivo main.py.  
 Si elegimos la opcion 0, se va a salir del programa.  
@@ -62,8 +64,9 @@ Entre los graficos se encuentran:
 - Grafico de la volatilidad acumulada en el periodo de tiempo seleccionado.
 - Grafico de los precios maximos alcanzados en el periodo de tiempo seleccionado.
 - Grafico de la evolucion del precio de cierre de las acciones.
-- Grafico de los pagos de dividendos acumulados en el periodo de tiempo seleccionado.
-A su vez tambien podemos encontrar los siguientes reportes:
+- Grafico de los pagos de dividendos acumulados en el periodo de tiempo seleccionado.  
+
+A su vez tambien podemos encontrar los siguientes reportes:  
 - Reporte de la volatilidad detallada en cada jornada tipica.
 - Reporte de cada empresa con todos los datos incluidos.
 - Reporte de los dividendos pagados en el periodo de tiempo seleccionado.
@@ -71,7 +74,6 @@ A su vez tambien podemos encontrar los siguientes reportes:
 
 
 
-```bash
 ## Estructura del repositorio
 El repositorio contiene los siguientes archivos:
 - main.py: Archivo principal del proyecto, contiene el codigo fuente.
