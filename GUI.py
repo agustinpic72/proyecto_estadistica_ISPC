@@ -1,4 +1,4 @@
-from os import system
+from os import system, getcwd
 
 
 def bienvenida():
@@ -44,10 +44,13 @@ def periodo():
 
 
 def limpieza_de_archivos():
-    system("rmdir -rf datos")
-    system("rmdir -rf graficos")
-    system("mkdir datos")
-    system("mkdir graficos")
+    dir_path = getcwd()
+    try:
+        system(f"rm -f {dir_path}/datos/*.csv ")
+        system(f"rm -f {dir_path}/graficos/*.png ")
+    finally:
+        system(f"mkdir -p {dir_path}/datos")
+        system(f"mkdir -p {dir_path}/graficos")
 
 
 def lista_de_tickers(tickers):

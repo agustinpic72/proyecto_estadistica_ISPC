@@ -2,7 +2,7 @@ import pandas as pd
 import yfinance as yf
 import numpy as np
 from matplotlib import pyplot as plt
-from GUI import lista_de_tickers
+from GUI import lista_de_tickers, limpieza_de_archivos
 
 
 # Generar dataframes con datos históricos de precios de acciones
@@ -243,6 +243,7 @@ def pagos_acumulados():
 
 
 if __name__ == "__main__":
+    limpieza_de_archivos()
     periodo = False
     __default = {
         "AMZN": [],
