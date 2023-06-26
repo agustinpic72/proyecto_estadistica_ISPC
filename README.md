@@ -11,12 +11,12 @@ Utilice el siguiente comando para instalar las librerias necesarias para correr 
 ```bash
 pipenv install -r requirements.txt
 ```
-¿Que es un ticker?
-> Un ticker es un símbolo que representa a una empresa en la bolsa de valores.
-¿Donde los puedo encontrar?
-> Los tickers se pueden encontrar en la pagina de [Yahoo Finance](https://finance.yahoo.com/), en la seccion de *'Statistics'* de cada empresa.
-¿Puedo usar cualquier ticker?
-> Si, siempre y cuando la empresa se encuentre en la bolsa de valores y tenga un ticker asignado.
+¿Que es un ticker?  
+> Un ticker es un símbolo que representa a una empresa en la bolsa de valores.  
+¿Donde los puedo encontrar?  
+> Los tickers se pueden encontrar en la pagina de [Yahoo Finance](https://finance.yahoo.com/), en la seccion de *'Statistics'* de cada empresa.  
+¿Puedo usar cualquier ticker?  
+> Si, siempre y cuando la empresa se encuentre en la bolsa de valores y tenga un ticker asignado.  
 ## Uso del proyecto
 Para correr el proyecto tenemos que utilizar el siguiente comando:
 ```bash
