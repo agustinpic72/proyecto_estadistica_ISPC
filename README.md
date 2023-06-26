@@ -5,7 +5,7 @@
 Proyecto de Procesamiento de Datos con python, utilizando las librerias [pandas](https://pandas.pydata.org/docs/), [yfinance](https://pypi.org/project/yfinance/), [numpy](https://numpy.org/doc/) y [matplotlib](https://matplotlib.org/).  
 Se utiliza la API de Yahoo Finance para obtener los datos de las acciones de las empresas que se desean analizar para posteriormente realizar un analisis exploratorio de los datos, y un analisis de correlacion entre las acciones.    
 Se le puede pasar una lista con tickers de empresas para que el programa genere los graficos y los reportes de las empresas que se desean analizar o bien utilizar la lista de empresas que se encuentra en el archivo main.py.  
-## Requisitos del proyecto
+## Requisitos del proyecto y algunos datos utiles
 Utilice el siguiente comando para instalar las librerias necesarias para correr el proyecto:  
 (*Se recomienda utilizar el entorno virtual de su preferencia*)
 ```bash
@@ -15,8 +15,9 @@ pipenv install -r requirements.txt
 > Un ticker es un símbolo que representa a una empresa en la bolsa de valores.
 
 ¿Donde los puedo encontrar?  
-> Los tickers se pueden encontrar en la pagina de [Yahoo Finance](https://finance.yahoo.com/), en la seccion de *'Statistics'* de cada empresa. 
- 
+> Los tickers se pueden encontrar en la pagina de [Yahoo Finance](https://finance.yahoo.com/), en la seccion de *'Statistics'* de cada empresa.
+> Tambien aparecen en la barra de busquedas como *'Symbol'*, solo deberemos tipear el nombre de la empresa que queremos buscar. 
+
 ¿Puedo usar cualquier ticker?  
 > Si, siempre y cuando la empresa se encuentre en la bolsa de valores y tenga un ticker asignado.  
 ## Uso del proyecto
