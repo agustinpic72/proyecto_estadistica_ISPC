@@ -69,13 +69,15 @@ Seleccione el periodo de tiempo a analizar:
 (*Si elegimos la opcion 1, se va a analizar el periodo maximo de tiempo disponible en la base de datos de yahoo finance.*)  
 Una vez seleccionado el periodo de tiempo, se generaran diferentes graficos y reportes en la carpeta *'graficos'* y *'datos'* respectivamente.  
 Entre los graficos se encuentran:
-- Volatilidad maxima y minima registrada en una jornada tipica.
-- Volatilidad acumulada en el periodo de tiempo seleccionado.
-- Precios maximos alcanzados en el periodo de tiempo seleccionado.
-- Evolucion del precio de cierre de las acciones.
+- Correlacion de los movimientos entre las acciones.
+- Desviacion estandar de la volatilidad.
+- Ganancias y perdidas acumuladas en porcentaje.
 - Pagos de dividendos acumulados en el periodo de tiempo seleccionado.  
+- Evolucion del precio de cierre de las acciones.
+- Precios maximos alcanzados en el periodo de tiempo seleccionado.
+- Volatilidad maxima y minima en una jornada tipica.
 
-A su vez tambien podemos encontrar los siguientes reportes:  
+A su vez tambien podemos encontrar los siguientes reportes en formato CSV:  
 - Volatilidad detallada en cada jornada tipica.
 - Reporte de cada empresa con todos los datos incluidos.
 - Dividendos pagados en el periodo de tiempo seleccionado.
