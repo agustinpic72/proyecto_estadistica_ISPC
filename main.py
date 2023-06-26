@@ -6,18 +6,20 @@ from GUI import lista_de_tickers, limpieza_de_archivos
 
 
 # Generar dataframes con datos históricos de precios de acciones
-def generar_datasets(tickers, start="2010-01-01", end="2020-12-31", max=False):
+def generar_datasets(tickers, start="2010-01-01", end="2020-12-31", periodo=False):
     """
     Genera un dataset con datos históricos de precios de acciones.
 
     Parameters
     ----------
     tickers : list
-        Lista de símbolos de acciones.
+        Diccionario de símbolos de acciones.
     start : str
         Fecha de inicio de los datos.
     end : str
         Fecha de fin de los datos.
+    periodo : str
+        Periodo de tiempo a analizar.
 
     Returns
     -------
@@ -27,27 +29,50 @@ def generar_datasets(tickers, start="2010-01-01", end="2020-12-31", max=False):
     """
     for ticker in tickers.keys():
         df = (
-            yf.Ticker(ticker).history(period=max)
-            if max
+            yf.Ticker(ticker).history(period=periodo)
+            if periodo
             else yf.Ticker(ticker).history(start=start, end=end)
         )
         tickers[ticker] = df
     return tickers
 
 
-def guardar_datasets(tickers):
-    for ticker in tickers.keys():
-        tickers[ticker].to_csv("datos/" + ticker + ".csv")
+def guardar_datasets(datasets):
+    """
+    Guarda cada dataframe generado en un archivo CSV con el nombre del ticker
+
+    Parameters
+    ----------
+    datasets : dict
+        Diccionario de dataframes de cada accion.
+    ----------
+    """
+    for ticker in datasets.keys():
+        datasets[ticker].to_csv("datos/" + ticker + ".csv")
 
 
-# Analisis de volatilidad
 def calculo_volatilidad(
-    tickers,
-):  # calcula la volatilidad dia a dia y la devuelve en un dataframe
+    datasets,
+):
+    """
+    Calcula la volatilidad de cada accion y la devuelve en un dataframe
+
+    Parameters
+    ----------
+    datasets : dict
+        Diccionario de dataframes de cada accion.
+    ----------
+
+    Returns
+    -------
+    volatilidad_df : pandas.DataFrame
+        Dataframe con la volatilidad de cada accion.
+
+    """
     volatilidad_df = pd.DataFrame()
-    for ticker in tickers.keys():
+    for ticker in datasets.keys():
         volatilidad_df[ticker] = (
-            tickers[ticker]["Close"] * 100 / tickers[ticker]["Open"] - 100
+            datasets[ticker]["Close"] * 100 / datasets[ticker]["Open"] - 100
         )
     volatilidad_df.replace([np.inf, -np.inf], np.nan, inplace=True)
     volatilidad_df.to_csv("datos/volatilidad.csv")
@@ -55,6 +80,9 @@ def calculo_volatilidad(
 
 
 def informacion_general_volatilidad():
+    """
+    Imprime en consola informacion general sobre la volatilidad registrada en el archivo CSV generado
+    """
     df = pd.read_csv("datos/volatilidad.csv")
     mensaje = "Analisis de volatilidad"
     columnas = df.columns
@@ -64,6 +92,18 @@ def informacion_general_volatilidad():
 
 
 def graficar_volatilidad(volatilidad_df, datasets):
+    """
+    Grafica la volatilidad maxima y la volatilidad minima registrada en un periodo (generalmente un dia)
+    Tambien grafica la volatilidad acumulada de cada accion, es decir, las ganancias/perdidas que se obtendrian
+
+    Parameters
+    ----------
+    volatilidad_df : pandas.DataFrame
+        Dataframe con la volatilidad de cada accion.
+    datasets : dict
+        Diccionario con los dataframes de cada accion.
+    ----------
+    """
     tickers = (
         volatilidad_df.columns[1:]
         if volatilidad_df.columns[0] == "Date"
@@ -127,6 +167,15 @@ def graficar_volatilidad(volatilidad_df, datasets):
 
 
 def graficar_correlacion_volatilidad(tickers):
+    """
+    Grafica la correlacion entre la volatilidad de las acciones, deberiamos ver una correlacion positiva entre acciones del mismo sector
+
+    Parameters
+    ----------
+    tickers : dict
+        Diccionario con los tickers de las acciones.
+    ----------
+    """
     df = pd.read_csv("datos/volatilidad.csv")
     df = df.drop(columns=["Date"])
     corr_df = df.corr()
@@ -145,6 +194,9 @@ def graficar_correlacion_volatilidad(tickers):
 
 
 def graficar_desviacion_estandar_de_la_volatilidad():
+    """
+    Grafica la desviacion estandar de la volatilidad de las acciones
+    """
     desv_estandar = pd.read_csv("datos/volatilidad.csv").describe().loc["std"]
     fig, ax = plt.subplots()
     ax.set_title("Desviación estándar")
@@ -156,15 +208,21 @@ def graficar_desviacion_estandar_de_la_volatilidad():
     plt.savefig("graficos/desviacion_estandar_de_la_volatilidad.png")
 
 
-# Analisis de precio de cierre
-
-
 def generar_y_graficar_dataframe_precios_de_cierre(
-    tickers,
-):  # Esta funcion almacena los datos en un dataframe y los guarda en un archivo csv
+    datasets,
+):
+    """
+    Genera un dataframe que posteriormente guarda en un archivo CSV para poder graficar los precios de cierre de las acciones
+
+    Parameters
+    ----------
+    datasets : dict
+        Diccionario con los tickers y dataframes de las acciones.
+    ----------
+    """
     precios_df = pd.DataFrame()
-    for ticker in tickers.keys():
-        df = tickers[ticker]
+    for ticker in datasets.keys():
+        df = datasets[ticker]
         precios_df[ticker] = df["Close"]
     precios_df.dropna(axis=0, inplace=True)
     precios_df.to_csv("datos/precios_cierre.csv")
@@ -187,6 +245,9 @@ def generar_y_graficar_dataframe_precios_de_cierre(
 
 
 def informacion_general_precios_de_cierre():
+    """
+    Imprime informacion general del archivo generado en la funcion anterior
+    """
     df = pd.read_csv("datos/precios_cierre.csv")
     columnas = df.columns
     longitud_texto = [len(col) for col in columnas]
@@ -196,6 +257,9 @@ def informacion_general_precios_de_cierre():
 
 
 def plotear_precios_historicos():
+    """
+    Grafica un grafico de linea de los precios de cierre de las acciones durante el periodo seleccionado
+    """
     df = pd.read_csv("datos/precios_cierre.csv")
     fig, ax = plt.subplots()
     ax.set_title("Precios históricos de cierre")
@@ -209,12 +273,18 @@ def plotear_precios_historicos():
     plt.savefig("graficos/precios_historicos.png")
 
 
-# Analisis de dividendos
-
-
 def generar_dataframe_dividendos(
     tickers,
-):  # Esta funcion filtra las empresas que pagan dividendos, almacena los datos en un dataframe y los guarda en un archivo csv
+):
+    """
+    Genera un dataframe que posteriormente guarda en un archivo CSV para poder graficar los dividendos de las acciones
+
+    Parameters
+    ----------
+    tickers : dict
+        Diccionario con los tickers de las acciones.
+    ----------
+    """
     dividendos_df = pd.DataFrame()
     for ticker in tickers.keys():
         df = tickers[ticker]
@@ -227,6 +297,9 @@ def generar_dataframe_dividendos(
 
 
 def pagos_acumulados():
+    """
+    Grafica la suma de todos los dividendos pagados por las empresas en el periodo seleccionado
+    """
     df = pd.read_csv("datos/dividendos.csv")
     tickers = df.columns[1:] if df.columns[0] == "Date" else df.columns
     suma_dividendos = []
@@ -258,12 +331,12 @@ if __name__ == "__main__":
         "META": [],
     }
     default, periodo = lista_de_tickers(__default)
-    datasets = generar_datasets(default, max=periodo)
-    volatilidad = calculo_volatilidad(datasets)
+    datasets = generar_datasets(default, periodo=periodo)
+    volatilidad_df = calculo_volatilidad(datasets)
     guardar_datasets(datasets)
     generar_y_graficar_dataframe_precios_de_cierre(datasets)
     informacion_general_volatilidad()
-    graficar_volatilidad(volatilidad, datasets)
+    graficar_volatilidad(volatilidad_df, datasets)
     informacion_general_precios_de_cierre()
     plotear_precios_historicos()
     generar_dataframe_dividendos(default)

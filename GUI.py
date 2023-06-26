@@ -2,10 +2,16 @@ from os import system, getcwd
 
 
 def bienvenida():
+    """
+    Función que imprime un mensaje de bienvenida al usuario en caso de que ejecute este archivo por error
+    """
     print("Bienvenido a mi proyecto, para ejecutar el mismo, ejecute main.py")
 
 
 def periodo():
+    """
+    Función que permite al usuario seleccionar el periodo de tiempo a analizar
+    """
     __intentos = 0
     eleccion = int(
         input(
@@ -44,6 +50,9 @@ def periodo():
 
 
 def limpieza_de_archivos():
+    """
+    Función que se encarga de limpiar los archivos de datos y gráficos
+    """
     dir_path = getcwd()
     try:
         system(f"rm -f {dir_path}/datos/*.csv ")
@@ -54,6 +63,21 @@ def limpieza_de_archivos():
 
 
 def lista_de_tickers(tickers):
+    """
+    Función que permite al usuario seleccionar los tickers a analizar
+
+    Parameters
+    ----------
+    tickers : dict
+        Diccionario que contiene los tickers a analizar
+
+    Returns
+    ----------
+    tickers : dict
+        Diccionario que contiene los tickers a analizar
+    periodo_seleccionado : str
+        String que contiene el periodo de tiempo a analizar
+    """
     __intentos = 0
     print("Los tickers disponibles de manera predeterminada son")
     for ticker in tickers:
