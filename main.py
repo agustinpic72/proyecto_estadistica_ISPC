@@ -60,17 +60,20 @@ def informacion_general_volatilidad():
     columnas = df.columns
     longitud_texto = [len(col) for col in columnas]
     print(mensaje.center(sum(longitud_texto) * 2))
-    print(df.describe())
+    print(df.describe(), "\n\n")
 
 
-def graficar_volatilidad_maxima_y_minima(tickers, periodo=False):
-    df = calculo_volatilidad(generar_datasets(tickers, max=periodo))
-    tickers = df.columns[1:] if df.columns[0] == "Date" else df.columns
+def graficar_volatilidad(volatilidad_df, datasets):
+    tickers = (
+        volatilidad_df.columns[1:]
+        if volatilidad_df.columns[0] == "Date"
+        else volatilidad_df.columns
+    )
     mayor_alza = []
     mayor_baja = []
     for ticker in tickers:
-        mayor_alza.append(df[ticker].max())
-        mayor_baja.append(df[ticker].min() * -1)
+        mayor_alza.append(volatilidad_df[ticker].max())
+        mayor_baja.append(volatilidad_df[ticker].min() * -1)
     fig, ax = plt.subplots()
     ax.set_title("Volatilidad máxima y mínima en un periodo")
     plt.ylabel("Volatilidad en %")
@@ -82,36 +85,81 @@ def graficar_volatilidad_maxima_y_minima(tickers, periodo=False):
     ax.bar_label(ax.containers[0], labels=labels_alza, label_type="center")
     ax.bar_label(ax.containers[1], labels=labels_baja, label_type="center")
     plt.savefig("graficos/volatilidad_maxima_y_minima.png")
-
-
-def graficar_volatilidad_acumulada(tickers, periodo=False):
-    df = calculo_volatilidad(generar_datasets(tickers, max=periodo))
-    tickers = df.columns[1:] if df.columns[0] == "Date" else df.columns
-    volatilidad_acumulada = []
-    for ticker in tickers:
-        volatilidad_acumulada.append(df[ticker].sum())
+    # Graficar y calcular volatilidad acumulada
+    reset_index = lambda df: df.reset_index(drop=True)
+    datasets = {ticker: reset_index(datasets[ticker]) for ticker in tickers}
+    calcular_ganancias_acumuladas = lambda dfs: [
+        (df.loc[df.index.stop - 1].Close * 100 / df.loc[0].Close) for df in dfs
+    ]
+    ganancias_acumuladas = {
+        ticker: calcular_ganancias_acumuladas([datasets[ticker]])[0]
+        for ticker in tickers
+    }
+    ganancias_acumuladas_df = pd.DataFrame(data=[ganancias_acumuladas])
+    mensaje = "Analisis de las ganancias acumuladas en %"
+    columnas = ganancias_acumuladas_df.columns
+    longitud_texto = [len(col) for col in columnas]
+    print(mensaje.center(sum(longitud_texto) * 2))
+    print(ganancias_acumuladas_df, "\n\n")
     fig, ax = plt.subplots()
     ax.set_title("Volatilidad de las acciones")
     plt.ylabel("Volatilidad en %")
     plt.xlabel("Empresa")
+    ax.set_yscale("log")
     ax.bar(
         tickers,
-        volatilidad_acumulada,
-        label="Volatilidad_acumulada",
-        color=["r" if va < 0 else "b" for va in volatilidad_acumulada],
+        ganancias_acumuladas_df.values[0],
+        label="ganancias_acumuladas",
+        color=["r" if va < 0 else "b" for va in ganancias_acumuladas_df.values[0]],
     )
-    label_volatilidad_acumulada = [("%.2f" % i) + "%" for i in volatilidad_acumulada]
+    label_ganancias_acumuladas = [
+        ("%.2f" % i) + "%" for i in ganancias_acumuladas_df.values[0]
+    ]
+
     ax.bar_label(
-        ax.containers[0], labels=label_volatilidad_acumulada, label_type="center"
+        ax.containers[0],
+        labels=label_ganancias_acumuladas,
+        label_type="edge",
+        weight="bold",
     )
     ax.axhline(y=0, color="black", linestyle="--")
-    plt.savefig("graficos/volatilidad_acumulada.png")
+    plt.savefig("graficos/ganancias_acumuladas.png")
+
+
+def graficar_correlacion_volatilidad(tickers):
+    df = pd.read_csv("datos/volatilidad.csv")
+    df = df.drop(columns=["Date"])
+    corr_df = df.corr()
+    tickers = corr_df.columns
+    fig, ax = plt.subplots()
+    ax.set_title("Correlación de la volatilidad entre empresas")
+    plt.xlabel("Empresas")
+    plt.ylabel("Empresas")
+    ax.set_xticks(range(len(tickers)))
+    ax.set_xticklabels(tickers)
+    ax.set_yticks(range(len(tickers)))
+    ax.set_yticklabels(tickers)
+    scatter = ax.imshow(corr_df, cmap="coolwarm")
+    fig.colorbar(scatter, ax=ax)
+    plt.savefig("graficos/correlacion_volatilidad.png")
+
+
+def graficar_desviacion_estandar_de_la_volatilidad():
+    desv_estandar = pd.read_csv("datos/volatilidad.csv").describe().loc["std"]
+    fig, ax = plt.subplots()
+    ax.set_title("Desviación estándar")
+    ax.bar(desv_estandar.index, desv_estandar.values)
+    label_desv_estandar = [("%.2f" % value) for value in desv_estandar.values]
+    ax.bar_label(ax.containers[0], labels=label_desv_estandar)
+    plt.xlabel("Variables")
+    plt.ylabel("Valor")
+    plt.savefig("graficos/desviacion_estandar_de_la_volatilidad.png")
 
 
 # Analisis de precio de cierre
 
 
-def generar_dataframe_precios_de_cierre(
+def generar_y_graficar_dataframe_precios_de_cierre(
     tickers,
 ):  # Esta funcion almacena los datos en un dataframe y los guarda en un archivo csv
     precios_df = pd.DataFrame()
@@ -120,6 +168,21 @@ def generar_dataframe_precios_de_cierre(
         precios_df[ticker] = df["Close"]
     precios_df.dropna(axis=0, inplace=True)
     precios_df.to_csv("datos/precios_cierre.csv")
+    # Graficar dataframe
+    fig, ax = plt.subplots()
+    tickers = (
+        precios_df.columns[1:]
+        if precios_df.columns[0] == "Date"
+        else precios_df.columns
+    )
+    for i, ticker in enumerate(tickers):
+        precio_maximo = "$%.2f" % precios_df[ticker].max()
+        ax.bar(ticker, precios_df[ticker].max())
+        ax.bar_label(ax.containers[i], labels=[precio_maximo], padding=3)
+    ax.set_title("Precios máximos de cierre")
+    plt.ylabel("Precio de cierre en USD")
+    plt.xlabel("Empresa")
+    plt.savefig("graficos/precios_maximos.png")
     return precios_df
 
 
@@ -128,27 +191,12 @@ def informacion_general_precios_de_cierre():
     columnas = df.columns
     longitud_texto = [len(col) for col in columnas]
     mensaje = "Analisis de precios de cierre"
-    print(mensaje.center(sum(longitud_texto)*2))
-    print(df.describe())
-
-
-def plotear_maximos_precios_de_cierre():
-    fig, ax = plt.subplots()
-    df = pd.read_csv("datos/precios_cierre.csv")
-    tickers = df.columns[1:] if df.columns[0] == "Date" else df.columns
-    for i, ticker in enumerate(tickers):
-        precio_maximo = "$%.2f" % df[ticker].max()
-        ax.bar(ticker, df[ticker].max())
-        ax.bar_label(ax.containers[i], labels=[precio_maximo], padding=3)
-    ax.set_title("Precios máximos de cierre")
-    plt.ylabel("Precio de cierre en USD")
-    plt.xlabel("Empresa")
-    plt.savefig("graficos/precios_maximos.png")
+    print(mensaje.center(sum(longitud_texto) * 2))
+    print(df.describe(), "\n\n")
 
 
 def plotear_precios_historicos():
     df = pd.read_csv("datos/precios_cierre.csv")
-    # df = df.set_index("Date")  # Convertir la columna de fechas en el índice
     fig, ax = plt.subplots()
     ax.set_title("Precios históricos de cierre")
     plt.xlabel("Fecha")
@@ -209,14 +257,15 @@ if __name__ == "__main__":
         "META": [],
     }
     default, periodo = lista_de_tickers(__default)
-    guardar_datasets(generar_datasets(default, max=periodo))
-    generar_dataframe_precios_de_cierre(generar_datasets(default, max=periodo))
-    calculo_volatilidad(generar_datasets(default, max=periodo))
+    datasets = generar_datasets(default, max=periodo)
+    volatilidad = calculo_volatilidad(datasets)
+    guardar_datasets(datasets)
+    generar_y_graficar_dataframe_precios_de_cierre(datasets)
     informacion_general_volatilidad()
-    graficar_volatilidad_maxima_y_minima(default, periodo)
-    graficar_volatilidad_acumulada(default, periodo)
+    graficar_volatilidad(volatilidad, datasets)
     informacion_general_precios_de_cierre()
-    plotear_maximos_precios_de_cierre()
     plotear_precios_historicos()
     generar_dataframe_dividendos(default)
     pagos_acumulados()
+    graficar_desviacion_estandar_de_la_volatilidad()
+    graficar_correlacion_volatilidad(default)

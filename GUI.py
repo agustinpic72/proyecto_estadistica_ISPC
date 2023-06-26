@@ -43,6 +43,13 @@ def periodo():
         exit()
 
 
+def limpieza_de_archivos():
+    system("rmdir -rf datos")
+    system("rmdir -rf graficos")
+    system("mkdir datos")
+    system("mkdir graficos")
+
+
 def lista_de_tickers(tickers):
     __intentos = 0
     print("Los tickers disponibles de manera predeterminada son")
