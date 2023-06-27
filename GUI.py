@@ -1,4 +1,5 @@
 import os
+from pathlib import Path
 
 
 def bienvenida():
@@ -153,8 +154,8 @@ def lista_de_tickers(tickers, intentos=0):
                 print(
                     'Debe ingresar la lista de tickers en un archivo de texto, separados por coma y sin espacios, para su conveniencia el archivo ya ha sido generado, con el nombre de "tickers.txt".'
                 )
-                os.system("touch tickers.txt")
-                os.system("echo 'ko,meta' > tickers.txt")
+                with open(Path("tickers.txt"), "w") as f:
+                    f.write("ko,meta")
                 input('Una vez que haya ingresado los tickers, presione "Enter"')
                 __tickers = open("tickers.txt", "r").read().split(",")
                 __tickers = [ticker.upper().strip() for ticker in __tickers]
