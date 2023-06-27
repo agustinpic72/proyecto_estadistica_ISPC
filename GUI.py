@@ -13,20 +13,30 @@ def periodo():
     Función que permite al usuario seleccionar el periodo de tiempo a analizar
     """
     __intentos = 0
-    eleccion = int(
-        input(
-            """\nSeleccione el periodo de tiempo a analizar:
-                                                1. Máximo
-                                                2. 5 años
-                                                3. 1 año
-                                                4. 6 meses
-                                                5. 1 mes
-                                                6. 5 días
-                                                0. Salir
+    while True:
+        try:
+            eleccion = int(
+                input(
+                    """\nSeleccione el periodo de tiempo a analizar:
+                                                        1. Máximo
+                                                        2. 5 años
+                                                        3. 1 año
+                                                        4. 6 meses
+                                                        5. 1 mes
+                                                        6. 5 días
+                                                        0. Salir
 
-                                                Seleccion: """
-        )
-    )
+                                                        Seleccion: """
+                )
+            )
+        except ValueError:
+            if __intentos >= 3:
+                print("Demasiados intentos fallidos, saliendo...")
+                exit()
+            print("\n** Opcion incorrecta **\n")
+            __intentos += 1
+            periodo(__intentos)
+
     if eleccion == 1:
         periodo = "max"
         return periodo
@@ -62,7 +72,7 @@ def limpieza_de_archivos():
         system(f"mkdir -p {dir_path}/graficos")
 
 
-def lista_de_tickers(tickers):
+def lista_de_tickers(tickers, intentos=0):
     """
     Función que permite al usuario seleccionar los tickers a analizar
 
@@ -82,17 +92,25 @@ def lista_de_tickers(tickers):
     print("Los tickers disponibles de manera predeterminada son")
     for ticker in tickers:
         print("*", ticker.rjust(len("\nLos tickers disponibles son:")))
-    eleccion = int(
-        input(
-            """\nElija una opcion: 
-                         1. Ingresar tickers manualmente
-                         2. Ingresar tickers desde un archivo
-                         3. Utilizar los tickers por defecto
-                         0. Salir
-                         
-                         Seleccion: """
-        )
-    )
+    while True:
+        try:
+            eleccion = int(
+                input(
+                    """\nElija una opcion: 
+                                1. Ingresar tickers manualmente
+                                2. Ingresar tickers desde un archivo
+                                3. Utilizar los tickers por defecto
+                                0. Salir
+                                
+                                Seleccion: """
+                )
+            )
+        except ValueError:
+            if __intentos >= 3:
+                print("Demasiados intentos fallidos, saliendo...")
+                exit()
+            print("\n** Opcion incorrecta **\n")
+            __intentos += 1
     if eleccion == 1:
         __tickers = input(
             "\nPor favor, ingrese los tickers separados por coma: "
@@ -131,11 +149,6 @@ def lista_de_tickers(tickers):
 
     elif eleccion == 0:
         exit()
-    else:
-        if __intentos >= 3:
-            print("Demasiados intentos, saliendo...")
-            exit()
-        print("Opcion incorrecta")
 
 
 if __name__ == "__main__":
