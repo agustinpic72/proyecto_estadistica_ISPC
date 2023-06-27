@@ -12,7 +12,7 @@ def periodo():
     """
     Función que permite al usuario seleccionar el periodo de tiempo a analizar
     """
-    __intentos = 0
+    intentos = 0
     while True:
         try:
             eleccion = int(
@@ -29,34 +29,25 @@ def periodo():
                                                         Seleccion: """
                 )
             )
-        except ValueError:
-            if __intentos >= 3:
+            if eleccion == 0:
+                print("Saliendo...")
+                exit()
+            if eleccion in [1, 2, 3, 4, 5, 6]:
+                break
+            intentos += 1
+            if intentos >= 3:
                 print("Demasiados intentos fallidos, saliendo...")
                 exit()
             print("\n** Opcion incorrecta **\n")
-            __intentos += 1
-            periodo(__intentos)
+        except (ValueError, TypeError):
+            intentos += 1
+            if intentos >= 3:
+                print("Demasiados intentos fallidos, saliendo...")
+                exit()
+            print("\n** Opcion incorrecta **\n")
 
-    if eleccion == 1:
-        periodo = "max"
-        return periodo
-    elif eleccion == 2:
-        periodo = "5y"
-        return periodo
-    elif eleccion == 3:
-        periodo = "1y"
-        return periodo
-    elif eleccion == 4:
-        periodo = "6mo"
-        return periodo
-    elif eleccion == 5:
-        periodo = "1mo"
-        return periodo
-    elif eleccion == 6:
-        periodo = "5d"
-        return periodo
-    elif eleccion == 0:
-        exit()
+    periodo = {1: "max", 2: "5y", 3: "1y", 4: "6mo", 5: "1mo", 6: "5d"}
+    return periodo[eleccion]
 
 
 def limpieza_de_archivos():
@@ -89,9 +80,11 @@ def lista_de_tickers(tickers, intentos=0):
         String que contiene el periodo de tiempo a analizar
     """
     __intentos = 0
+
     print("Los tickers disponibles de manera predeterminada son")
     for ticker in tickers:
         print("*", ticker.rjust(len("\nLos tickers disponibles son:")))
+
     while True:
         try:
             eleccion = int(
@@ -105,41 +98,80 @@ def lista_de_tickers(tickers, intentos=0):
                                 Seleccion: """
                 )
             )
-        except ValueError:
+            if eleccion in [0, 1, 2, 3]:
+                break
+            __intentos += 1
             if __intentos >= 3:
                 print("Demasiados intentos fallidos, saliendo...")
                 exit()
             print("\n** Opcion incorrecta **\n")
+        except (ValueError, TypeError):
             __intentos += 1
+            if __intentos >= 3:
+                print("Demasiados intentos fallidos, saliendo...")
+                exit()
+            print("\n** Opcion incorrecta **\n")
     if eleccion == 1:
-        __tickers = input(
-            "\nPor favor, ingrese los tickers separados por coma: "
-        ).split(",")
-        __tickers = [ticker.upper().strip() for ticker in __tickers]
+        __intentos = 0
+        while True:
+            try:
+                __tickers = input(
+                    "\nPor favor, ingrese los tickers separados por coma: "
+                ).split(",")
+                __tickers = [ticker.upper().strip() for ticker in __tickers]
+                if len(__tickers) > 0:
+                    break
+                __intentos += 1
+                if __intentos >= 3:
+                    print("Demasiados intentos fallidos, saliendo...")
+                    exit()
+                print("\n** Debe ingresar al menos un ticker **\n")
+            except Exception:
+                __intentos += 1
+                if __intentos >= 3:
+                    print("Demasiados intentos fallidos, saliendo...")
+                    exit()
+                print("\n** Ocurrió un error al procesar el input **\n")
+
         tickers = {}
         for ticker in __tickers:
             tickers[ticker] = []
-        print("\n** La lista de tickers actual es: ", __tickers, "**\n")
+        print("\n** La lista de tickers actual es:", __tickers, "**\n")
         periodo_seleccionado = periodo()
-        print("\nComenzando analisis...")
-
+        print("\nComenzando análisis...")
         return tickers, periodo_seleccionado
 
     elif eleccion == 2:
         tickers = {}
-        print(
-            'Deberá ingresar la lista de tickers en un archivo de texto, separados por coma y sin espacios, para su conveniencia el archivo ya ha sido generado, con el nombre de "tickers.txt".'
-        )
-        system("touch tickers.txt")
-        input('una vez que haya ingresado los tickers, presione "Enter"')
-        __tickers = open("tickers.txt", "r").read().split(",")
-        __tickers = [ticker.upper().strip() for ticker in __tickers]
-        print("Los tickers ingresados son: ", __tickers)
-        for ticker in __tickers:
-            tickers[ticker] = []
-        periodo_seleccionado = periodo()
-        print("Comenzando analisis...")
-        return tickers, periodo_seleccionado
+        __intentos = 0
+        while True:
+            try:
+                print(
+                    'Debe ingresar la lista de tickers en un archivo de texto, separados por coma y sin espacios, para su conveniencia el archivo ya ha sido generado, con el nombre de "tickers.txt".'
+                )
+                system("touch tickers.txt")
+                system("echo 'ko,meta' > tickers.txt")
+                input('Una vez que haya ingresado los tickers, presione "Enter"')
+                __tickers = open("tickers.txt", "r").read().split(",")
+                __tickers = [ticker.upper().strip() for ticker in __tickers]
+                print("Los tickers ingresados son: ", __tickers)
+                for ticker in __tickers:
+                    tickers[ticker] = []
+                periodo_seleccionado = periodo()
+                print("Comenzando analisis...")
+                return tickers, periodo_seleccionado
+            except (FileNotFoundError, IOError):
+                __intentos += 1
+                if __intentos >= 3:
+                    print("Demasiados intentos fallidos, saliendo...")
+                    exit()
+                print("\n** Error al leer el archivo de tickers **\n")
+            except Exception:
+                __intentos += 1
+                if __intentos >= 3 or periodo_seleccionado == 0:
+                    print("Demasiados intentos fallidos, saliendo...")
+                    exit()
+                print("\n** Ocurrió un error al procesar los tickers **\n")
 
     elif eleccion == 3:
         print("La lista de tickers actual es: ", tickers.keys())

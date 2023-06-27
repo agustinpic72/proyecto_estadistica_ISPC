@@ -5,7 +5,6 @@ from matplotlib import pyplot as plt
 from GUI import lista_de_tickers, limpieza_de_archivos
 
 
-# Generar dataframes con datos históricos de precios de acciones
 def generar_datasets(tickers, start="2010-01-01", end="2020-12-31", periodo=False):
     """
     Genera un dataset con datos históricos de precios de acciones.
@@ -27,13 +26,29 @@ def generar_datasets(tickers, start="2010-01-01", end="2020-12-31", periodo=Fals
         Dataset con datos históricos de precios de acciones.
 
     """
+
     for ticker in tickers.keys():
-        df = (
-            yf.Ticker(ticker).history(period=periodo)
-            if periodo
-            else yf.Ticker(ticker).history(start=start, end=end)
-        )
-        tickers[ticker] = df
+        try:
+            df = (
+                yf.Ticker(ticker).history(period=periodo)
+                if periodo
+                else yf.Ticker(ticker).history(start=start, end=end)
+            )
+            if df.empty:
+                print("No hay datos disponibles para el ticker", ticker)
+                tickers[ticker] = pd.DataFrame()
+                continue
+            else:
+                tickers[ticker] = df
+        except yf.TickerError as e:
+            print("Error al obtener información del ticker:", e)
+            tickers[ticker] = pd.DataFrame()
+    _empty_tickers = {k:v for k,v in tickers.items() if v.empty}
+    for ticker in _empty_tickers:
+        tickers.pop(ticker)
+    if not tickers:
+        print("No se pudo obtener información de ningún ticker")
+        exit()
     return tickers
 
 
