@@ -1,4 +1,4 @@
-from os import system, getcwd
+import os
 
 
 def bienvenida():
@@ -54,13 +54,17 @@ def limpieza_de_archivos():
     """
     Función que se encarga de limpiar los archivos de datos y gráficos
     """
-    dir_path = getcwd()
+    dir_path = os.getcwd()
     try:
-        system(f"rm -f {dir_path}/datos/*.csv ")
-        system(f"rm -f {dir_path}/graficos/*.png ")
+        if os.name == "posix":  # for Linux or Mac
+            os.system(f"rm -f {dir_path}/datos/*.csv ")
+            os.system(f"rm -f {dir_path}/graficos/*.png ")
+        elif os.name == "nt":  # for Windows
+            os.system(f"del {dir_path}\\datos\\*.csv /Q ")
+            os.system(f"del {dir_path}\\graficos\\*.png /Q ")
     finally:
-        system(f"mkdir -p {dir_path}/datos")
-        system(f"mkdir -p {dir_path}/graficos")
+        os.makedirs(f"{dir_path}/datos", exist_ok=True)
+        os.makedirs(f"{dir_path}/graficos", exist_ok=True)
 
 
 def lista_de_tickers(tickers, intentos=0):
@@ -149,8 +153,8 @@ def lista_de_tickers(tickers, intentos=0):
                 print(
                     'Debe ingresar la lista de tickers en un archivo de texto, separados por coma y sin espacios, para su conveniencia el archivo ya ha sido generado, con el nombre de "tickers.txt".'
                 )
-                system("touch tickers.txt")
-                system("echo 'ko,meta' > tickers.txt")
+                os.system("touch tickers.txt")
+                os.system("echo 'ko,meta' > tickers.txt")
                 input('Una vez que haya ingresado los tickers, presione "Enter"')
                 __tickers = open("tickers.txt", "r").read().split(",")
                 __tickers = [ticker.upper().strip() for ticker in __tickers]
