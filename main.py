@@ -43,7 +43,7 @@ def generar_datasets(tickers, start="2010-01-01", end="2020-12-31", periodo=Fals
         except yf.TickerError as e:
             print("Error al obtener información del ticker:", e)
             tickers[ticker] = pd.DataFrame()
-    _empty_tickers = {k:v for k,v in tickers.items() if v.empty}
+    _empty_tickers = {k: v for k, v in tickers.items() if v.empty}
     for ticker in _empty_tickers:
         tickers.pop(ticker)
     if not tickers:
@@ -139,7 +139,7 @@ def graficar_volatilidad(volatilidad_df, datasets):
     labels_baja = [("%.2f" % i) + "%" for i in mayor_baja]
     ax.bar_label(ax.containers[0], labels=labels_alza, label_type="center")
     ax.bar_label(ax.containers[1], labels=labels_baja, label_type="center")
-    plt.savefig("graficos/volatilidad_maxima_y_minima.png")
+    plt.savefig("graficos/picos_de_volatilidad.png")
     # Graficar y calcular volatilidad acumulada
     reset_index = lambda df: df.reset_index(drop=True)
     datasets = {ticker: reset_index(datasets[ticker]) for ticker in tickers}
@@ -214,7 +214,7 @@ def graficar_desviacion_estandar_de_la_volatilidad():
     """
     desv_estandar = pd.read_csv("datos/volatilidad.csv").describe().loc["std"]
     fig, ax = plt.subplots()
-    ax.set_title("Desviación estándar")
+    ax.set_title("Desviación estándar de la volatilidad")
     ax.bar(desv_estandar.index, desv_estandar.values)
     label_desv_estandar = [("%.2f" % value) for value in desv_estandar.values]
     ax.bar_label(ax.containers[0], labels=label_desv_estandar)
@@ -252,10 +252,10 @@ def generar_y_graficar_dataframe_precios_de_cierre(
         precio_maximo = "$%.2f" % precios_df[ticker].max()
         ax.bar(ticker, precios_df[ticker].max())
         ax.bar_label(ax.containers[i], labels=[precio_maximo], padding=3)
-    ax.set_title("Precios máximos de cierre")
+    ax.set_title("Maximos Historicos")
     plt.ylabel("Precio de cierre en USD")
     plt.xlabel("Empresa")
-    plt.savefig("graficos/precios_maximos.png")
+    plt.savefig("graficos/maximos_historicos.png")
     return precios_df
 
 
@@ -327,15 +327,15 @@ def pagos_acumulados():
     ax.bar_label(ax.containers[0], labels=label_dividendos)
     plt.xlabel("Empresa")
     plt.ylabel("Pagos acumulados en USD")
-    plt.savefig("graficos/pagos_acumulados.png")
+    plt.savefig("graficos/dividendos_acumulados.png")
 
 
 if __name__ == "__main__":
     limpieza_de_archivos()
     periodo = False
     __default = {
-        "AMZN": [],
         "KO": [],
+        "AMZN": [],
         "AAPL": [],
         "MSFT": [],
         "GGAL": [],
