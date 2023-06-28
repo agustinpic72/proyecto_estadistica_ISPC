@@ -16,7 +16,7 @@ Es importante entender dos cosas:
     -Por mas que *Microsoft* y *Coca-Cola* esten en el top de dividendos, esto no significa que sean las mas rentables, ya que el precio de la acción es mucho mas alto que el de Ford, por lo que el porcentaje de dividendos que paga Ford es mucho mayor.  
 
 ## ganancias_acumuladas.png
-En esta imagen podemos ver el rendimiento acumulado en forma porcentual de cada empresa, en el periodo seleccionado, podemos deducir que todas las empresas han tenido un crecimiento positivo, aunque algunas mas que otras, como es el caso de *Galicia* que tiene ''tan solo'' acumulado un porcentaje de **115.15%**.  
+En esta imagen podemos ver el rendimiento acumulado en forma porcentual de cada empresa, en el periodo seleccionado, podemos deducir que todas las empresas han tenido un crecimiento positivo, aunque algunas mas que otras.  
 
 ## maximos_historicos.png
 Este reporte se genera para visualizar el precio mas alto alcanzado por cada empresa en el periodo seleccionado, la idea es a futuro poder utilizar estos datos para realizar una estadistica pensando en medir que porcentaje de su maximo historico ha sido retribuido en forma de dividendos a los inversores.  
