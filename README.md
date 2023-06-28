@@ -98,9 +98,9 @@ El repositorio contiene los siguientes archivos:
 
 ## Conclusiones
 Disfrute y aprendí mucho haciendo este trabajo, el tema de las finanzas es algo que me gusta y me interesa mucho, por lo que me parecio una buena oportunidad para seguir aprendiendo como utilizar las librerias de python para el analisis de datos.  
-En un comienzo los objetivos del proyecto eran analizar datos estaticos pero a mitad del desarrollo me decidí por cambiar todo para que sea adaptable en tiempo real y que también se pudiera elegir cualquier empresa de la que se desee obtener información (y que este disponible en la API de Yahoo Finance) en lugar de tener que modificar el código cada vez que se quiera analizar una empresa diferente.
+En un comienzo los objetivos del proyecto eran analizar datos estaticos pero a mitad del desarrollo me decidí por cambiar todo para que sea adaptable en tiempo real y que también se pudiera elegir cualquier empresa de la que se desee obtener información (y que este disponible en la API de Yahoo Finance) en lugar de tener que modificar el código cada vez que se quiera analizar una empresa diferente.  
 Algunas dificultades que se me presentaron, fueron problemas sobretodo con las librerias y sus metodos, también el hecho de generar estadisticas que sean realmente significativas para el tema a tratar y que no sean solo numeros sin sentido.  
 A pesar de que aún haya cosas que retocar y mejorar, estoy conforme con el resultado generado y con lo que aprendi en el proceso.
 
-#### Autor:
+### Autor:
     -Agustin Piccoli
