@@ -141,34 +141,37 @@ def graficar_volatilidad(volatilidad_df, datasets):
     ax.bar_label(ax.containers[1], labels=labels_baja, label_type="center")
     plt.savefig("graficos/picos_de_volatilidad.png")
     # Graficar y calcular volatilidad acumulada
-    reset_index = lambda df: df.reset_index(drop=True)
-    datasets = {ticker: reset_index(datasets[ticker]) for ticker in tickers}
-    calcular_ganancias_acumuladas = lambda dfs: [
-        (df.loc[df.index.stop - 1].Close * 100 / df.loc[0].Close) for df in dfs
-    ]
     ganancias_acumuladas = {
-        ticker: calcular_ganancias_acumuladas([datasets[ticker]])[0]
-        for ticker in tickers
+        ticker: volatilidad_df[ticker].sum() for ticker in volatilidad_df.columns
     }
-    ganancias_acumuladas_df = pd.DataFrame(data=[ganancias_acumuladas])
+
+    ganancias_acumuladas["total"] = sum(ganancias_acumuladas.values())
+    ganancias_acumuladas_df = pd.DataFrame(
+        data=[ganancias_acumuladas],
+        index=[i for i in range(len(ganancias_acumuladas.keys()))],
+    )
+
     mensaje = "Analisis de las ganancias acumuladas en %"
     columnas = ganancias_acumuladas_df.columns
     longitud_texto = [len(col) for col in columnas]
     print(mensaje.center(sum(longitud_texto) * 2))
-    print(ganancias_acumuladas_df, "\n\n")
+    print(ganancias_acumuladas_df, "\n")
     fig, ax = plt.subplots()
-    ax.set_title("Volatilidad de las acciones")
-    plt.ylabel("Volatilidad en %")
+    ax.set_title("Ganancias acumuladas")
+    plt.ylabel("Ganancias")
     plt.xlabel("Empresa")
-    ax.set_yscale("log")
+
     ax.bar(
-        tickers,
+        ganancias_acumuladas_df.columns,
         ganancias_acumuladas_df.values[0],
         label="ganancias_acumuladas",
-        color=["r" if va < 0 else "b" for va in ganancias_acumuladas_df.values[0]],
+        color=[
+            "r" if ganancia < 0 else "b"
+            for ganancia in ganancias_acumuladas_df.values[0]
+        ],
     )
     label_ganancias_acumuladas = [
-        ("%.2f" % i) + "%" for i in ganancias_acumuladas_df.values[0]
+        ("%.2f" % ganancia) + "%" for ganancia in ganancias_acumuladas_df.values[0]
     ]
 
     ax.bar_label(
@@ -178,6 +181,7 @@ def graficar_volatilidad(volatilidad_df, datasets):
         weight="bold",
     )
     ax.axhline(y=0, color="black", linestyle="--")
+    plt.gca().set_ylim(bottom=min(ax.get_ylim()))
     plt.savefig("graficos/ganancias_acumuladas.png")
 
 
