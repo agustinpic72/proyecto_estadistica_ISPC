@@ -13,6 +13,7 @@ pipenv install -r requirements.txt
 ```
 ¿Que es un ticker?  
 > Un ticker es un símbolo que representa a una empresa en la bolsa de valores.
+> En caso de no conocer ninguno, dejé una lista con algunos tickers de empresas conocidas agrupadas por sector en el archivo *sugerencias_tickers.md*.
 
 ¿Donde los puedo encontrar?  
 > Los tickers se pueden encontrar en la pagina de [Yahoo Finance](https://finance.yahoo.com/), en la seccion de *'Statistics'* de cada empresa.

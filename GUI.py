@@ -1,12 +1,17 @@
 import os
 from pathlib import Path
+from time import sleep
 
 
 def bienvenida():
     """
     Función que imprime un mensaje de bienvenida al usuario en caso de que ejecute este archivo por error
     """
-    print("Bienvenido a mi proyecto, para ejecutar el mismo, ejecute main.py")
+    os.system("clear")
+    mensaje = "Bienvenido a mi proyecto, para ejecutar el mismo, ejecute main.py"
+    mensaje = mensaje.center(len(mensaje) + 10, " ")
+    print("=" * (len(mensaje) + 3), end="\n\n")
+    print("|", mensaje, "|\n", "_" * (len(mensaje) + 2))
 
 
 def periodo():
@@ -16,11 +21,16 @@ def periodo():
     intentos = 0
     while True:
         try:
+            mensaje = "Seleccione el periodo de tiempo a analizar"
+            mensaje = mensaje.center(len(mensaje) + 10 + len("1. maximo"), " ")
+            if intentos == 0:
+                os.system("clear")
+                print(" ", "=" * len(mensaje), end="\n")
             eleccion = int(
                 input(
-                    """\nSeleccione el periodo de tiempo a analizar:
-                                                        1. Máximo
-                                                        2. 5 años
+                    f"""\n{mensaje.rjust(int(len(mensaje) / 2))}
+                                                        1. Máximo    
+                                                        2. 5 años    
                                                         3. 1 año
                                                         4. 6 meses
                                                         5. 1 mes
@@ -31,21 +41,41 @@ def periodo():
                 )
             )
             if eleccion == 0:
-                print("Saliendo...")
+                os.system("clear")
+                mensaje = "Saliendo..."
+                mensaje = mensaje.center(len(mensaje) + 10, " ")
+                print("=" * len(mensaje), end="\n\n")
+                print(mensaje, "\n", "_" * len(mensaje), end="\n")
                 exit()
             if eleccion in [1, 2, 3, 4, 5, 6]:
                 break
             intentos += 1
             if intentos >= 3:
-                print("Demasiados intentos fallidos, saliendo...")
+                os.system("clear")
+                mensaje = "Demasiados intentos fallidos, saliendo..."
+                mensaje = mensaje.center(len(mensaje) + 10, " ")
+                print("=" * len(mensaje), end="\n\n")
+                print(mensaje, "\n", "_" * len(mensaje), end="\n")
                 exit()
-            print("\n** Opcion incorrecta **\n")
+            os.system("clear")
+            mensaje = 'Numero incorrecto, ingrese un numero entre "0" y "6"'
+            mensaje = mensaje.center(len(mensaje) + 10, " ")
+            print(" ", "=" * len(mensaje), end="\n")
+            print(mensaje)
         except (ValueError, TypeError):
             intentos += 1
             if intentos >= 3:
-                print("Demasiados intentos fallidos, saliendo...")
+                os.system("clear")
+                mensaje = "Demasiados intentos fallidos, saliendo..."
+                mensaje = mensaje.center(len(mensaje) + 10, " ")
+                print("=" * len(mensaje), end="\n\n")
+                print(mensaje, "\n", "_" * len(mensaje), end="\n")
                 exit()
-            print("\n** Opcion incorrecta **\n")
+            os.system("clear")
+            mensaje = 'Opcion incorrecta, ingrese un numero entre "0" y "6"'
+            mensaje = mensaje.center(len(mensaje) + 10, " ")
+            print(" ", "=" * len(mensaje), end="\n")
+            print(mensaje)
 
     periodo = {1: "max", 2: "5y", 3: "1y", 4: "6mo", 5: "1mo", 6: "5d"}
     return periodo[eleccion]
@@ -55,7 +85,17 @@ def limpieza_de_archivos():
     """
     Función que se encarga de limpiar los archivos de datos y gráficos
     """
+    os.system("clear")
+    mensaje = "Obteniendo directorio de trabajo... "
+    mensaje = mensaje.center(len(mensaje) + 16, " ")
+    print(" ", "=" * len(mensaje), end="\n\n")
+    print("|", mensaje, "|\n")
     dir_path = os.getcwd()
+    sleep(1)
+    mensaje = "Generando archivos necesarios... "
+    mensaje = mensaje.center(len(mensaje) + 16, " ")
+    print(" ", "=" * len(mensaje), end="\n\n")
+    print("|", mensaje, "|\n", "_" * len(mensaje))
     try:
         if os.name == "posix":  # for Linux or Mac
             os.system(f"rm -f {dir_path}/datos/*.csv ")
@@ -66,6 +106,8 @@ def limpieza_de_archivos():
     finally:
         os.makedirs(f"{dir_path}/datos", exist_ok=True)
         os.makedirs(f"{dir_path}/graficos", exist_ok=True)
+    sleep(1)
+    os.system("clear")
 
 
 def lista_de_tickers(tickers, intentos=0):
@@ -86,9 +128,14 @@ def lista_de_tickers(tickers, intentos=0):
     """
     __intentos = 0
 
-    print("Los tickers disponibles de manera predeterminada son")
+    os.system("clear")
+    mensaje = "Los tickers disponibles de manera predeterminada son"
+    mensaje = mensaje.center(len(mensaje) + 30, " ")
+    print(" ", "=" * len(mensaje), end="\n\n")
+    print("|", mensaje, "|\n", "_" * len(mensaje), end="\n\n")
     for ticker in tickers:
-        print("*", ticker.rjust(len("\nLos tickers disponibles son:")))
+        print("*", ticker.rjust(int(len(mensaje) / 2)), end="\n")
+    print("_" * len(mensaje), end="\n")
 
     while True:
         try:
@@ -103,18 +150,29 @@ def lista_de_tickers(tickers, intentos=0):
                                 Seleccion: """
                 )
             )
+            print("_" * len(mensaje), end="\n")
             if eleccion in [0, 1, 2, 3]:
                 break
             __intentos += 1
             if __intentos >= 3:
-                print("Demasiados intentos fallidos, saliendo...")
+                os.system("clear")
+                mensaje = "Demasiados intentos fallidos, saliendo..."
+                mensaje = mensaje.center(len(mensaje) + 10, " ")
+                print("=" * len(mensaje), end="\n\n")
+                print(mensaje, "\n", "_" * len(mensaje), end="\n")
                 exit()
+            os.system("clear")
             print("\n** Opcion incorrecta **\n")
         except (ValueError, TypeError):
             __intentos += 1
             if __intentos >= 3:
-                print("Demasiados intentos fallidos, saliendo...")
+                os.system("clear")
+                mensaje = "Demasiados intentos fallidos, saliendo..."
+                mensaje = mensaje.center(len(mensaje) + 10, " ")
+                print("=" * len(mensaje), end="\n\n")
+                print(mensaje, "\n", "_" * len(mensaje), end="\n")
                 exit()
+            os.system("clear")
             print("\n** Opcion incorrecta **\n")
     if eleccion == 1:
         __intentos = 0
@@ -124,26 +182,45 @@ def lista_de_tickers(tickers, intentos=0):
                     "\nPor favor, ingrese los tickers separados por coma: "
                 ).split(",")
                 __tickers = [ticker.upper().strip() for ticker in __tickers]
-                if len(__tickers) > 0:
+                if __tickers[0] == "" and len(__tickers) == 1:
+                    os.system("clear")
+                    mensaje = "\nDebe ingresar al menos un ticker"
+                    mensaje = mensaje.center(len(mensaje) + 10, " ")
+                    print("=" * len(mensaje), end="\n")
+                    print(mensaje, "\n", "_" * len(mensaje), end="\n")
+                else:
                     break
                 __intentos += 1
                 if __intentos >= 3:
-                    print("Demasiados intentos fallidos, saliendo...")
+                    os.system("clear")
+                    mensaje = "Demasiados intentos fallidos, saliendo..."
+                    mensaje = mensaje.center(len(mensaje) + 10, " ")
+                    print("=" * len(mensaje), end="\n\n")
+                    print(mensaje, "\n", "_" * len(mensaje), end="\n")
                     exit()
-                print("\n** Debe ingresar al menos un ticker **\n")
+
             except Exception:
                 __intentos += 1
                 if __intentos >= 3:
-                    print("Demasiados intentos fallidos, saliendo...")
+                    os.system("clear")
+                    mensaje = "Demasiados intentos fallidos, saliendo..."
+                    mensaje = mensaje.center(len(mensaje) + 10, " ")
+                    print("=" * len(mensaje), end="\n\n")
+                    print(mensaje, "\n", "_" * len(mensaje), end="\n")
                     exit()
+                print("=" * len(mensaje), end="\n\n")
                 print("\n** Ocurrió un error al procesar el input **\n")
 
         tickers = {}
         for ticker in __tickers:
             tickers[ticker] = []
-        print("\n** La lista de tickers actual es:", __tickers, "**\n")
+        os.system("clear")
         periodo_seleccionado = periodo()
-        print("\nComenzando análisis...")
+        os.system("clear")
+        mensaje = "Comenzando analisis..."
+        mensaje = mensaje.center(len(mensaje) + 30, " ")
+        print(" ", "=" * len(mensaje), end="\n\n")
+        print("|", mensaje, "|\n", "_" * len(mensaje), end="\n\n")
         return tickers, periodo_seleccionado
 
     elif eleccion == 2:
@@ -151,37 +228,55 @@ def lista_de_tickers(tickers, intentos=0):
         __intentos = 0
         while True:
             try:
-                print(
-                    'Debe ingresar la lista de tickers en un archivo de texto, separados por coma y sin espacios, para su conveniencia el archivo ya ha sido generado, con el nombre de "tickers.txt".'
-                )
+                mensaje = 'debe ingresar los tickers en el archivo "tickers.txt" y presionar "Enter"'
+                mensaje = mensaje.center(len(mensaje), " ")
+                os.system("clear")
+                print(" ", "=" * len(mensaje), end="\n\n")
+                print("|", mensaje, "|\n", "_" * len(mensaje), end="\n\n")
                 with open(Path("tickers.txt"), "w") as f:
                     f.write("ko,meta")
-                input('Una vez que haya ingresado los tickers, presione "Enter"')
+                input('Presione "Enter" para continuar')
                 __tickers = open("tickers.txt", "r").read().split(",")
                 __tickers = [ticker.upper().strip() for ticker in __tickers]
-                print("Los tickers ingresados son: ", __tickers)
                 for ticker in __tickers:
                     tickers[ticker] = []
                 periodo_seleccionado = periodo()
-                print("Comenzando analisis...")
+                os.system("clear")
+                mensaje = "Comenzando analisis..."
+                mensaje = mensaje.center(len(mensaje) + 30, " ")
+                print(" ", "=" * len(mensaje), end="\n\n")
+                print("|", mensaje, "|\n", "_" * len(mensaje), end="\n\n")
                 return tickers, periodo_seleccionado
             except (FileNotFoundError, IOError):
                 __intentos += 1
                 if __intentos >= 3:
-                    print("Demasiados intentos fallidos, saliendo...")
+                    os.system("clear")
+                    mensaje = "Demasiados intentos fallidos, saliendo..."
+                    mensaje = mensaje.center(len(mensaje) + 10, " ")
+                    print("=" * len(mensaje), end="\n\n")
+                    print(mensaje, "\n", "_" * len(mensaje), end="\n")
                     exit()
+                os.system("clear")
+                print("=" * len(mensaje), end="\n\n")
                 print("\n** Error al leer el archivo de tickers **\n")
             except Exception:
                 __intentos += 1
                 if __intentos >= 3 or periodo_seleccionado == 0:
-                    print("Demasiados intentos fallidos, saliendo...")
+                    os.system("clear")
+                    mensaje = "Demasiados intentos fallidos, saliendo..."
+                    mensaje = mensaje.center(len(mensaje) + 10, " ")
+                    print("=" * len(mensaje), end="\n\n")
+                    print(mensaje, "\n", "_" * len(mensaje), end="\n")
                     exit()
                 print("\n** Ocurrió un error al procesar los tickers **\n")
 
     elif eleccion == 3:
-        print("La lista de tickers actual es: ", tickers.keys())
         periodo_seleccionado = periodo()
-        print("\nComenzando analisis...")
+        os.system("clear")
+        mensaje = "Comenzando analisis..."
+        mensaje = mensaje.center(len(mensaje) + 30, " ")
+        print(" ", "=" * len(mensaje), end="\n\n")
+        print("|", mensaje, "|\n", "_" * len(mensaje), end="\n\n")
         return tickers, periodo_seleccionado
 
     elif eleccion == 0:

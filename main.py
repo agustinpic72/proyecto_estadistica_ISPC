@@ -99,11 +99,12 @@ def informacion_general_volatilidad():
     Imprime en consola informacion general sobre la volatilidad registrada en el archivo CSV generado
     """
     df = pd.read_csv("datos/volatilidad.csv")
-    mensaje = "Analisis de volatilidad"
-    columnas = df.columns
-    longitud_texto = [len(col) for col in columnas]
-    print(mensaje.center(sum(longitud_texto) * 2))
-    print(df.describe(), "\n\n")
+    ancho_dataframe = sum([len(i) for i in df.columns])
+    mensaje = "**Analisis de volatilidad**"
+    mensaje = mensaje.center(len(mensaje) + 10)
+    print(" ", "=" * (ancho_dataframe))
+    print("|", mensaje, "|\n")
+    print(df.describe(), "\n", "_" * (ancho_dataframe), "\n\n")
 
 
 def graficar_volatilidad(volatilidad_df, datasets):
@@ -145,15 +146,17 @@ def graficar_volatilidad(volatilidad_df, datasets):
     ganancias_acumuladas = {
         clave: calculo_ganancias(datasets[clave]) for clave in datasets.keys()
     }
+    ganancias_acumuladas["total"] = sum(ganancias_acumuladas.values())
     ganancias_acumuladas_df = pd.DataFrame(
         data=[ganancias_acumuladas],
         index=[0],
     )
+    ancho_dataframe = sum([len(i) for i in ganancias_acumuladas_df.columns])
     mensaje = "Analisis de las ganancias acumuladas en %"
-    columnas = ganancias_acumuladas_df.columns
-    longitud_texto = [len(col) for col in columnas]
-    print(mensaje.center(sum(longitud_texto) * 2))
-    print(ganancias_acumuladas_df, "\n")
+    mensaje = mensaje.center(len(mensaje) + 10)
+    print(" ", "=" * (ancho_dataframe))
+    print("|", mensaje, "|\n")
+    print(ganancias_acumuladas_df, "\n", "_" * (ancho_dataframe), "\n\n")
     fig, ax = plt.subplots()
     ax.set_title("Ganancias acumuladas")
     plt.ylabel("Ganancias")
@@ -266,11 +269,12 @@ def informacion_general_precios_de_cierre():
     Imprime informacion general del archivo generado en la funcion anterior
     """
     df = pd.read_csv("datos/precios_cierre.csv")
-    columnas = df.columns
-    longitud_texto = [len(col) for col in columnas]
+    ancho_dataframe = sum([len(i) for i in df.columns])
     mensaje = "Analisis de precios de cierre"
-    print(mensaje.center(sum(longitud_texto) * 2))
-    print(df.describe(), "\n\n")
+    mensaje = mensaje.center(len(mensaje) + 10)
+    print(" ", "=" * (ancho_dataframe))
+    print("|", mensaje, "|\n")
+    print(df.describe(), "\n", "_" * (ancho_dataframe), "\n\n")
 
 
 def plotear_precios_historicos():
