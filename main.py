@@ -141,16 +141,14 @@ def graficar_volatilidad(volatilidad_df, datasets):
     ax.bar_label(ax.containers[1], labels=labels_baja, label_type="center")
     plt.savefig("graficos/picos_de_volatilidad.png")
     # Graficar y calcular volatilidad acumulada
+    calculo_ganancias = lambda df: (df.iloc[-1].Close * 100 / df.iloc[0].Close) - 100
     ganancias_acumuladas = {
-        ticker: volatilidad_df[ticker].sum() for ticker in volatilidad_df.columns
+        clave: calculo_ganancias(datasets[clave]) for clave in datasets.keys()
     }
-
-    ganancias_acumuladas["total"] = sum(ganancias_acumuladas.values())
     ganancias_acumuladas_df = pd.DataFrame(
         data=[ganancias_acumuladas],
-        index=[i for i in range(len(ganancias_acumuladas.keys()))],
+        index=[0],
     )
-
     mensaje = "Analisis de las ganancias acumuladas en %"
     columnas = ganancias_acumuladas_df.columns
     longitud_texto = [len(col) for col in columnas]
