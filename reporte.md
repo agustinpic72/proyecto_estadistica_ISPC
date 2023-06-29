@@ -6,12 +6,12 @@ Algunos grupos tipicos que podemos reconocer serían  industriales, tecnologicas
 
 ## desviacion_estandar_de_la_volatilidad.png
 Representa la desviación estandar de la volatilidad de cada acción, en el caso de **GGAL** *Grupo financiero Galicia* podemos ver como otra vez es la que mayores cifras representa, aunque no deja atras otras tecnologicas de alto crecimiento como **Amazon, Tesla y Netflix**.  
-Mas adelante veremos los picos de volatilidad de caca empresa, representado en porcentajes y comparando la diferencia entre subas y bajas, es decir los maximos días positivos y negativos respectivamente.  
+Mas adelante veremos los picos de volatilidad de cada empresa, representado en porcentajes y comparando la diferencia entre subas y bajas, es decir los maximos días positivos y negativos respectivamente.  
 
 ## dividendos_acumulados.png
 Se grafica la acumulación de los dividendos en el periodo de tiempo seleccionado, cabe aclarar que en este grafico no podemos ver todas las empresas de la lista ya que no todas pagan dividendos.   
 Explicado esto, podemos ver como **Microsoft** es la que mas ha pagado, seguida por **Coca-Cola** y **Ford**.  
-Es importante entender dos cosas:
+Es importante entender dos cosas:  
     -*Coca-Cola* paga dividendos desde **1962** y *Microsoft* desde **2005**.  
     -Por mas que *Microsoft* y *Coca-Cola* esten en el top de dividendos, esto no significa que sean las mas rentables, ya que el precio de la acción es mucho mas alto que el de Ford, por lo que el porcentaje de dividendos que paga Ford es mucho mayor.  
 
