@@ -146,7 +146,7 @@ def graficar_volatilidad(volatilidad_df, datasets):
     ganancias_acumuladas = {
         clave: calculo_ganancias(datasets[clave]) for clave in datasets.keys()
     }
-    ganancias_acumuladas["total"] = sum(ganancias_acumuladas.values())
+    ganancias_acumuladas["promedio"] = np.mean(list(ganancias_acumuladas.values()))
     ganancias_acumuladas_df = pd.DataFrame(
         data=[ganancias_acumuladas],
         index=[0],
